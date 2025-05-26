@@ -7,30 +7,54 @@ temps = []
 umids = []
 precipts = []
 
-#iniciando bloco de repetição e entrada de dados
-while repeticao == True:
-    temp = int(input("DIgite a temp em graus Celsius: \n"))
-    temps.append(temp)
+#criando função para analisar os dados
+def analisar_dados(temp, umid, precipt):
 
-    umid = int(input("DIgite a umid em %: \n"))
-    umids.append(umid)
-
-    precipt = int(input("Digite a precipatação em mm: \n"))
-    precipts.append(precipt)
-
+    global alertas
+    
     if temp >= 40 or temp <= 5:
         print("alerta de temp crítica\n")
         alertas += 1
 
-    if umid <= 20 or umid >= 80:
+    if umid <= 20 or umid >= 95:
         print("alerta de umid crítica\n")
         alertas += 1
 
     if precipt >= 80:
         print("alerta de precipitação crítica\n")
         alertas += 1
+    return 0 
 
-    pergunta = input("Você deseja inserir mais dados? (s/n): \n").lower()
+#iniciando bloco de repetição e entrada de dados
+while repeticao == True:
+    temp = int(input("DIgite a temp em graus Celsius: "))
+    
+    if temp != int(temp):
+        print("Por favor, insira um número inteiro válido para a temperatura.")
+        continue
+
+    temps.append(temp)
+
+    umid = int(input("\nDIgite a umid em %: "))
+   
+    if umid != int(umid):
+        print("Por favor, insira um número inteiro válido para a umidade.")
+        continue
+    
+    umids.append(umid)
+
+    precipt = int(input("\nDigite a precipatação em mm: "))
+
+    if precipt != int(precipt):
+        print("Por favor, insira um número inteiro válido para a precipitação.")
+        continue
+
+    precipts.append(precipt)
+
+    #chamando a função para analisar os dados
+    analisar_dados(temp, umid, precipt)
+
+    pergunta = input("Você deseja inserir mais dados? (s/n): ").lower()
     
     if pergunta == 'n':
         repeticao = False
@@ -54,18 +78,18 @@ if len(temps) >= num_semanas * num_dias:
     for semana, dias in enumerate(temps_matriz, start=1):
         print(f"Semana {semana}: {dias}")
 
-    print("\nMaior e menor temperatura de cada semana:\n")
+    print("\nMaior e menor temperatura de cada semana:")
     #mostra a maior e menor temperatura de cada semana
     for i, semana in enumerate(temps_matriz, start=1):
         maior = max(semana)
         menor = min(semana)
-        print(f"Semana {i} - Maior temp: {maior}°C, Menor temp: {menor}°C\n")
+        print(f"\nSemana {i} - Maior temp: {maior}°C, Menor temp: {menor}°C")
 else:
-    print("Não há dados suficientes para formar uma matriz 2x5 de temperaturas.\n")
+    print("\nNão há dados suficientes para formar uma matriz 2x5 de temperaturas.")
 
 if alertas >= 5:
-    print("Risco alto de evento climático extremo\n")
+    print("\nRisco alto de evento climático extremo\n")
 else:
-    print("Clima sob controle\n")
+    print("\nClima sob controle")
 
 print(f"Total de alertas: {alertas}")
